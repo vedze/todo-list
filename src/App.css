@@ -1,0 +1,9 @@
+.App {
+  /* 화면 가운데 배치 */
+  width: 500px;
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* gap 속성은 display가 flex일 때에만 적용 가능 */
+}
