@@ -1,0 +1,29 @@
+.TodoItem {
+  display: flex; /* 가로로 배치 */
+  align-items: center; /* 열을 기준으로 가운데 정렬 */
+  gap: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgb(240, 240, 240);
+}
+
+.TodoItem input {
+  width: 20px;
+}
+
+.TodoItem .content {
+  flex: 1; /* 화면에 최대한 늘어나도록 */
+}
+
+.TodoItem .date {
+  font-size: 14px;
+  color: gray;
+}
+
+.TodoItem button {
+  cursor: pointer;
+  color: gray;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+}
