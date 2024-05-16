@@ -10,6 +10,11 @@
   border-radius: 5px;
 }
 
+.Editor input:focus {
+  outline: none;
+  border-color: rgb(37, 147, 255);
+}
+
 .Editor button {
   width: 80px;
   border: none; /* 버튼 테두리 */
