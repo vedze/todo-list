@@ -1,6 +1,6 @@
-import { useState } from "react";
 import "./List.css";
 import TodoItem from "./TodoItem";
+import { useState, useMemo } from "react";
 
 const List = ({ todos, onUpdate, onDelete }) => {
   const [search, setSearch] = useState("");
@@ -24,9 +24,29 @@ const List = ({ todos, onUpdate, onDelete }) => {
 
   const filteredTodos = getFilteredData();
 
+  const { totalCount, doneCount, notDoneCount } = useMemo(() => {
+    const totalCount = todos.length;
+    // filter는 배열 내 전체 요소를 순회하기 때문에 데이터가 많아질수록 느려짐
+    const doneCount = todos.filter((todo) => todo.isDone).length;
+    const notDoneCount = totalCount - doneCount;
+
+    return {
+      totalCount,
+      doneCount,
+      notDoneCount,
+    };
+  }, [todos]);
+
+  // const { totalCount, doneCount, notDoneCount } = getAnalyzedData();
+
   return (
     <div className="List">
       <h4>Todo List 🍀</h4>
+      <div>
+        <div>total: {totalCount}</div>
+        <div>done: {doneCount}</div>
+        <div>notDone: {notDoneCount}</div>
+      </div>
       <input
         placeholder="검색어를 입력하세요"
         value={search}
