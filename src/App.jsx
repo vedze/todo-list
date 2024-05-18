@@ -1,8 +1,8 @@
-import { useRef, useState } from "react";
 import "./App.css";
 import Editor from "./components/Editor";
 import Header from "./components/Header";
 import List from "./components/List";
+import { useRef, useState, useReducer, useCallback } from "react";
 
 /* 임시 데이터 */
 const mockData = [
@@ -26,34 +26,50 @@ const mockData = [
   },
 ];
 
+function reducer(state, action) {
+  switch (action.type) {
+    case "CREATE":
+      return [action.data, ...state];
+    case "UPDATE":
+      return state.map((item) =>
+        item.id === action.targetId ? { ...item, isDone: !item.isDone } : item
+      );
+    case "DELETE":
+      return state.filter((item) => item.id !== action.targetId);
+    default:
+      return state;
+  }
+}
+
 function App() {
-  const [todos, setTodos] = useState(mockData);
+  const [todos, dispatch] = useReducer(reducer, mockData);
   const idRef = useRef(3);
 
-  const onCreate = (content) => {
-    const newTodo = {
-      id: idRef.current++,
-      isDone: false,
-      content: content,
-      date: new Date().getTime(),
-    };
+  const onCreate = useCallback((content) => {
+    dispatch({
+      type: "CREATE",
+      data: {
+        id: idRef.current++,
+        isDone: false,
+        content: content,
+        date: new Date().getTime(),
+      },
+    });
+  }, []);
 
-    setTodos([newTodo, ...todos]); // 맨 앞에 새 Todo 추가, 뒤로 붙이면 맨 뒤에 추가됨
-  };
+  const onUpdate = useCallback((targetId) => {
+    dispatch({
+      type: "UPDATE",
+      targetId: targetId,
+    });
+  }, []);
 
-  // todos 중 targetId와 일치하는 id를 갖는 todo item만 변경한 새로운 배열 반환
-  const onUpdate = (targetId) => {
-    setTodos(
-      todos.map((todo) =>
-        todo.id === targetId ? { ...todo, isDone: !todo.isDone } : todo
-      )
-    );
-  };
-
-  // targetId가 아닌 todo들 filter
-  const onDelete = (targetId) => {
-    setTodos(todos.filter((todo) => todo.id !== targetId));
-  };
+  const onDelete = useCallback((targetId) => {
+    dispatch({
+      type: "DELETE",
+      targetId: targetId,
+    });
+  }, []);
 
   return (
     <div className="App">
