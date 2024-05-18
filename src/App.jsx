@@ -1,8 +1,8 @@
-import { useRef, useState, useReducer } from "react";
 import "./App.css";
 import Editor from "./components/Editor";
 import Header from "./components/Header";
 import List from "./components/List";
+import { useRef, useState, useReducer, useCallback } from "react";
 
 /* 임시 데이터 */
 const mockData = [
@@ -45,7 +45,7 @@ function App() {
   const [todos, dispatch] = useReducer(reducer, mockData);
   const idRef = useRef(3);
 
-  const onCreate = (content) => {
+  const onCreate = useCallback((content) => {
     dispatch({
       type: "CREATE",
       data: {
@@ -55,23 +55,21 @@ function App() {
         date: new Date().getTime(),
       },
     });
-  };
+  }, []);
 
-  // todos 중 targetId와 일치하는 id를 갖는 todo item만 변경한 새로운 배열 반환
-  const onUpdate = (targetId) => {
+  const onUpdate = useCallback((targetId) => {
     dispatch({
       type: "UPDATE",
       targetId: targetId,
     });
-  };
+  }, []);
 
-  // targetId가 아닌 todo들 filter
-  const onDelete = (targetId) => {
+  const onDelete = useCallback((targetId) => {
     dispatch({
       type: "DELETE",
       targetId: targetId,
     });
-  };
+  }, []);
 
   return (
     <div className="App">
