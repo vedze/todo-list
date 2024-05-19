@@ -1,7 +1,10 @@
 import "./TodoItem.css";
-import { memo } from "react";
+import { TodoDispatchContext } from "../App";
+import { memo, useContext } from "react";
 
-const TodoItem = ({ id, isDone, content, date, onUpdate, onDelete }) => {
+const TodoItem = ({ id, isDone, content, date }) => {
+  const { onUpdate, onDelete } = useContext(TodoDispatchContext);
+
   const onChangeCheckbox = () => {
     onUpdate(id);
   };
@@ -9,6 +12,7 @@ const TodoItem = ({ id, isDone, content, date, onUpdate, onDelete }) => {
   const onClickDeleteButton = () => {
     onDelete(id);
   };
+
   return (
     <div className="TodoItem">
       {/*onChange를 사용하는 이유: button이 아니라 input 요소이기 때문에
@@ -20,17 +24,5 @@ const TodoItem = ({ id, isDone, content, date, onUpdate, onDelete }) => {
     </div>
   );
 };
-
-// 고차 컴포넌트 (HOC)
-// true -> 리렌더링 x / false -> 리렌더링 o
-/* export default memo(TodoItem, (prevProps, nextProps) => {
-  if (prevProps.id !== nextProps.id) return false;
-  if (prevProps.isDone !== nextProps.isDone) return false;
-  if (prevProps.content !== nextProps.content) return false;
-  if (prevProps.date !== nextProps.date) return false;
-
-  return true;
-});
- */
 
 export default memo(TodoItem);
