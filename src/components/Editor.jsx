@@ -1,7 +1,9 @@
 import "./Editor.css";
-import { useRef, useState } from "react";
+import { TodoContext } from "../App";
+import { useRef, useState, useContext } from "react";
 
-const Editor = ({ onCreate }) => {
+const Editor = () => {
+  const { onCreate } = useContext(TodoContext);
   const [content, setContent] = useState("");
   const contentRef = useRef();
 

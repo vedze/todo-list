@@ -1,7 +1,10 @@
 import "./TodoItem.css";
-import { memo } from "react";
+import { TodoContext } from "../App";
+import { memo, useContext } from "react";
 
-const TodoItem = ({ id, isDone, content, date, onUpdate, onDelete }) => {
+const TodoItem = ({ id, isDone, content, date }) => {
+  const { onUpdate, onDelete } = useContext(TodoContext);
+
   const onChangeCheckbox = () => {
     onUpdate(id);
   };
@@ -9,6 +12,7 @@ const TodoItem = ({ id, isDone, content, date, onUpdate, onDelete }) => {
   const onClickDeleteButton = () => {
     onDelete(id);
   };
+
   return (
     <div className="TodoItem">
       {/*onChange를 사용하는 이유: button이 아니라 input 요소이기 때문에
