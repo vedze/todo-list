@@ -1,9 +1,9 @@
 import "./TodoItem.css";
-import { TodoContext } from "../App";
+import { TodoDispatchContext } from "../App";
 import { memo, useContext } from "react";
 
 const TodoItem = ({ id, isDone, content, date }) => {
-  const { onUpdate, onDelete } = useContext(TodoContext);
+  const { onUpdate, onDelete } = useContext(TodoDispatchContext);
 
   const onChangeCheckbox = () => {
     onUpdate(id);
@@ -24,17 +24,5 @@ const TodoItem = ({ id, isDone, content, date }) => {
     </div>
   );
 };
-
-// 고차 컴포넌트 (HOC)
-// true -> 리렌더링 x / false -> 리렌더링 o
-/* export default memo(TodoItem, (prevProps, nextProps) => {
-  if (prevProps.id !== nextProps.id) return false;
-  if (prevProps.isDone !== nextProps.isDone) return false;
-  if (prevProps.content !== nextProps.content) return false;
-  if (prevProps.date !== nextProps.date) return false;
-
-  return true;
-});
- */
 
 export default memo(TodoItem);
